@@ -13,15 +13,15 @@ var auth = require('basic-auth');
 var xform2json = require('xform-to-json');
 var traverse = require('traverse');
 var formSubmissionMiddleware = require('openrosa-form-submission-middleware');
+
 var config = require('./config.js');
-var xform2json = require('./lib/xform2json.js');
 var simpleProxy = require('./lib/simple-proxy.js');
 var requireAuth = require('./lib/github-auth-passthrough');
 var saveMedia, saveForm;
 
 // Configure the persistance store for the forms and the media
-if (config.mediaStore === "s3") {
-    saveMedia = require('./lib/persist-s3.js');
+if (config.mediaStore) {
+    saveMedia = require('./lib/persist-' + config.mediaStore + '.js');
 } else {
     saveMedia = require('./lib/persist-fs.js');
 }
